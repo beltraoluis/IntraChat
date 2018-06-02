@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">IntraChat</string>
+    <string name="action_settings">Settings</string>
+    <string name="localhost">localhost</string>
+</resources>
