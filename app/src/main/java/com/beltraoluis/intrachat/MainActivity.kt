@@ -1,6 +1,7 @@
 package com.beltraoluis.intrachat
 
 import android.os.Bundle
+import android.os.Message
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -31,5 +32,9 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun update(ip: String, message: String){
+
     }
 }
