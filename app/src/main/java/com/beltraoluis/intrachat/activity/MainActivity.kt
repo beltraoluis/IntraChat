@@ -1,11 +1,10 @@
-package com.beltraoluis.intrachat
+package com.beltraoluis.intrachat.activity
 
 import android.os.Bundle
-import android.os.Message
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.beltraoluis.intrachat.R
 
 import kotlinx.android.synthetic.main.activity_main.*
 

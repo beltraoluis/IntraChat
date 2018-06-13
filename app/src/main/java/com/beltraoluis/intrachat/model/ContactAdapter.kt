@@ -4,10 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.beltraoluis.intrachat.R
+import java.sql.Timestamp
 
-class ContactAdapter(data: MutableList<String>): RecyclerView.Adapter<ContactViewHolder>() {
+class ContactAdapter(data: MutableList<Pair<Timestamp,String>>?): RecyclerView.Adapter<ContactViewHolder>() {
 
-    private val dataSet = data
+    private val dataSet = data ?: mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -22,5 +23,10 @@ class ContactAdapter(data: MutableList<String>): RecyclerView.Adapter<ContactVie
 
     override fun getItemCount(): Int {
         return dataSet.size
+    }
+
+    fun add(p: Pair<Timestamp,String>){
+        dataSet.add(p)
+        notifyDataSetChanged()
     }
 }

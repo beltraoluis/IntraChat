@@ -1,8 +1,8 @@
 package com.beltraoluis.intrachat.connection;
 
 import android.util.Log;
-import com.beltraoluis.intrachat.MainActivity;
-import com.beltraoluis.intrachat.connection.LineCode.NZR;
+import com.beltraoluis.intrachat.activity.MainActivity;
+import com.beltraoluis.intrachat.connection.LineCode.NRZ;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
@@ -36,7 +36,7 @@ public class TcpServer extends Thread {
                 String ipCliente = cliente.getInetAddress().getHostAddress();
                 System.out.println("Cliente conectado: " + ipCliente);
                 ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
-                NZR linha = (NZR) entrada.readObject();
+                NRZ linha = (NRZ) entrada.readObject();
                 String mensagem = linha.decode();
                 entrada.close();
                 try {

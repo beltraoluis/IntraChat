@@ -1,6 +1,6 @@
 package com.beltraoluis.intrachat.connection.LineCode;
 
-public class NZR {
+public class RZ {
     public String encode(){
         return "";
     }
