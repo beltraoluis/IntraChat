@@ -1,0 +1,15 @@
+> call fragment
+//    fun callFragment(){
+//        var frag = supportFragmentManager.findFragmentByTag("listTag")
+//        if(frag == null){
+//            frag = ReasonFragment.newInstance(1L)
+//            supportFragmentManager
+//                    .beginTransaction()
+//                    .add(R.appId.reasons_frame,frag,"listTag")
+//                    .commit()
+//        }
+//    }
+
+recycler
+
+adapter.setHasStableIds(true)
