@@ -3,6 +3,7 @@ package com.beltraoluis.intrachat.model
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.beltraoluis.intrachat.Control
+import com.beltraoluis.intrachat.activity.MainActivity
 import kotlinx.android.synthetic.main.contact.view.*
 import org.jetbrains.anko.longToast
 import java.sql.Timestamp
@@ -16,7 +17,7 @@ class ContactViewHolder(itemView: View?): RecyclerView.ViewHolder(itemView) {
         ip?.text = c.second
         time?.text = c.first.toString()
         itemView?.setOnClickListener {
-            Control.mainContext?.longToast(ip?.text ?: "")?.show()
+            Control.main?.callFragment(MainActivity.TALK_FRAGMENT,c.second)
         }
     }
 }

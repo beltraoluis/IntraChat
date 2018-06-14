@@ -35,9 +35,18 @@ class MainFragment : Fragment() {
     lateinit var recycler: RecyclerView
     lateinit var recyclerAdapter: ContactAdapter
 
+    companion object {
+        fun newInstance(ip: String): MainFragment {
+            val f = MainFragment()
+            val args = Bundle()
+            args.putString("index", ip)
+            f.arguments = args
+            return f
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        Control.mainContext = context
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 

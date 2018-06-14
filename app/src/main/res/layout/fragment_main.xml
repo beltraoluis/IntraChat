@@ -14,7 +14,8 @@
         android:src="@android:color/background_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/fundo_ip" />
 
     <TextView
         android:id="@+id/main_ip"
@@ -51,5 +52,6 @@
         app:backgroundTint="@android:color/holo_red_dark"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
 </android.support.constraint.ConstraintLayout>
