@@ -17,6 +17,7 @@ class ContactViewHolder(itemView: View?): RecyclerView.ViewHolder(itemView) {
         ip?.text = c.second
         time?.text = c.first.toString()
         itemView?.setOnClickListener {
+            Control.activeIp = c.second
             Control.main?.callFragment(MainActivity.TALK_FRAGMENT,c.second)
         }
     }

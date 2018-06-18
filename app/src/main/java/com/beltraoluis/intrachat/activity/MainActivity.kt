@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
                             .add(R.id.frame,frag,MAIN_FRAGMENT)
                             .commit()
                 }
+                Control.state = MAIN_FRAGMENT
             }
             TALK_FRAGMENT -> {
                 if(frag == null){
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
                             .add(R.id.frame,frag,TALK_FRAGMENT)
                             .commit()
                 }
+                Control.state = TALK_FRAGMENT
             }
             else -> {}
         }
@@ -77,5 +79,14 @@ class MainActivity : AppCompatActivity() {
                 .beginTransaction()
                 .replace(R.id.frame,frag)
                 .commit()
+    }
+
+    override fun finish() {
+        if(Control.state.equals(MAIN_FRAGMENT)){
+            super.finish()
+        }
+        else{
+            callFragment(MAIN_FRAGMENT,"")
+        }
     }
 }

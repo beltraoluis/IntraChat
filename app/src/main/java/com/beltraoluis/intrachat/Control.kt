@@ -1,9 +1,11 @@
 package com.beltraoluis.intrachat
 
-import android.content.Context
 import com.beltraoluis.intrachat.activity.MainActivity
-import com.beltraoluis.intrachat.fragment.MainFragment
+import com.beltraoluis.intrachat.model.Conversation
 
 object Control {
     var main: MainActivity? = null
+    var state: String? = null
+    var activeIp: String? = null
+    var conversation = mutableMapOf<String, Conversation>()
 }

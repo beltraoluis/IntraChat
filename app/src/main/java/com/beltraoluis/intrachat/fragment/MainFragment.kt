@@ -10,12 +10,14 @@ import android.net.wifi.WifiManager
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.InputType
 import android.text.format.Formatter
 import android.widget.EditText
 import android.widget.TextView
 import com.beltraoluis.intrachat.Control
 import com.beltraoluis.intrachat.R
 import com.beltraoluis.intrachat.model.ContactAdapter
+import com.beltraoluis.intrachat.model.Conversation
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.jetbrains.anko.customView
 import org.jetbrains.anko.dip
@@ -62,6 +64,11 @@ class MainFragment : Fragment() {
             adapter = recyclerAdapter
             setHasFixedSize(true)
         }
+        if(Control.conversation.isNotEmpty()){
+            Control.conversation.forEach {
+                recyclerAdapter.add(Timestamp(it.value.time) to it.key)
+            }
+        }
         fab.setOnClickListener {
             lateinit var ip: EditText
             alert("", "Iniciar Conversa:") {
@@ -69,10 +76,12 @@ class MainFragment : Fragment() {
                     ip = editText {
                         padding = dip(8)
                         hint = "endereço IP"
+                        inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
 
                     }
                 }
                 positiveButton("Enviar") {
+                    Control.conversation[ip.text.toString()] = Conversation(System.currentTimeMillis())
                     recyclerAdapter.add(Timestamp(System.currentTimeMillis()) to ip.text.toString())
                 }
                 negativeButton("Voltar") {}
