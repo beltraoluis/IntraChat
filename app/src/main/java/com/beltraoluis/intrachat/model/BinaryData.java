@@ -4,71 +4,71 @@ import static java.lang.Math.pow;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class DadoBinario {
+public class BinaryData {
 
-    protected ArrayList<Bit> dado;
-    protected int divisao;
+    private ArrayList<Bit> data;
+    private int mbyte;
 
-    public DadoBinario(){
-        dado = new ArrayList<>();
-        this.divisao = 8;
+    public BinaryData(){
+        data = new ArrayList<>();
+        this.mbyte = 8;
     }
 
-    public DadoBinario(int div){
-        dado = new ArrayList<>();
-        this.divisao = div;
+    public BinaryData(int div){
+        data = new ArrayList<>();
+        this.mbyte = div;
     }
 
     public void set(Bit b){
-        dado.add(b);
+        data.add(b);
     }
 
     public void set(Integer v){
-        Stack<Integer> pilha = new Stack<>();
-        int i = v.intValue();
+        Stack<Integer> stack = new Stack<>();
+        int i = v;
         while(i != 0 && i != 1){
-            pilha.push(new Integer(i%2));
+            stack.push(i % 2);
             i = (int) i/2;
         }
         try{
-            pilha.push(i);
-            if(divisao > 0){
-                while(pilha.size()%divisao != 0){
-                    pilha.push(0);
+            stack.push(i);
+            if(mbyte > 0){
+                while(stack.size()% mbyte != 0){
+                    stack.push(0);
                 }
             }
-            while(!pilha.empty()){
-                dado.add(new Bit(pilha.pop().intValue()));
+            while(!stack.empty()){
+                data.add(new Bit(stack.pop()));
             }
-        }catch(NullPointerException e){}
+        }catch(NullPointerException ignored){}
     }
 
     public void set(String s){
-        dado.clear();
-        divisao = 8;
+        data.clear();
+        mbyte = 8;
         for(int i = 0; i < s.length(); i++){
             set((int) s.charAt(i));
         }
     }
 
     public void print(){
-        for(Bit b: dado){
+        for(Bit b: data){
             System.out.print(b.get());
         }
         System.out.print("b");
     }
 
     public void println(){
-        for(Bit b: dado){
+        for(Bit b: data){
             System.out.print(b.get());
         }
         System.out.print("b\n");
     }
 
-    public String tamanhoByte(){
+    public String byteSize(){
         StringBuilder sb = new StringBuilder("");
-        if(divisao%8 == 0){
-            float tam = (float) dado.size()/8;
+        if(mbyte %8 == 0){
+            float tam = (float) data.size()/8;
             if(tam >= 1073741824){
                 tam = tam/1073741824;
                 sb.append(tam);
@@ -95,19 +95,19 @@ public class DadoBinario {
     }
 
     public int size(){
-        return dado.size();
+        return data.size();
     }
 
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder("");
         int val;
-        if(divisao%8 == 0){
-            int tam = dado.size()/8;
+        if(mbyte %8 == 0){
+            int tam = data.size()/8;
             for(int i = 0; i < tam; i++){
                 val = 0;
                 for(int j = 0; j < 8; j++){
-                    val += dado.get(8*i+j).get()*pow(2,7-j);
+                    val += data.get(8*i+j).get()*pow(2,7-j);
                 }
                 sb.append((char) val);
             }
@@ -115,7 +115,20 @@ public class DadoBinario {
         return sb.toString();
     }
 
+    public String toBinary(){
+        StringBuilder sb = new StringBuilder();
+        for(Bit b : data){
+            if(b.estado){
+                sb.append('1');
+            }
+            else{
+                sb.append('0');
+            }
+        }
+        return sb.toString();
+    }
+
     public int get(int i){
-        return dado.get(i).get();
+        return data.get(i).get();
     }
 }
