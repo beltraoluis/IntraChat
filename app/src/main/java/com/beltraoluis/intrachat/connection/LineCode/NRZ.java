@@ -3,23 +3,22 @@ package com.beltraoluis.intrachat.connection.LineCode;
 import com.beltraoluis.intrachat.model.BinaryData;
 import com.beltraoluis.intrachat.model.Bit;
 
-public class NRZ implements  LineCode{
+public class NRZ extends RZ{
 
     @Override
     public String encode(String s){
         BinaryData data = new BinaryData();
         data.set(s);
-        char[] signal = data.toBinary().toCharArray();
+        char[] signal = data.binaryString().toCharArray();
         StringBuilder str = new StringBuilder();
         for(int i = 0; i < signal.length; i++){
             if(signal[i] == '1'){
                 str.append("-1");
-                if(i == 0) str.append(";");
             }
             else{
                 str.append("1");
-                if(i+1 != signal.length) str.append(";");
             }
+            if(i+1 != signal.length) str.append(";");
         }
         return str.toString();
     }

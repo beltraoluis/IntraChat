@@ -9,17 +9,16 @@ public class RZ implements  LineCode {
     public String encode(String s){
         BinaryData data = new BinaryData();
         data.set(s);
-        char[] signal = data.toBinary().toCharArray();
+        char[] signal = data.binaryString().toCharArray();
         StringBuilder str = new StringBuilder();
         for(int i = 0; i < signal.length; i++){
             if(signal[i] == '1'){
                 str.append("1;0");
-                if(i == 0) str.append(";");
             }
             else{
                 str.append("-1;0");
-                if(i+1 != signal.length) str.append(";");
             }
+            if(i+1 != signal.length) str.append(";");
         }
         return str.toString();
     }
@@ -42,5 +41,12 @@ public class RZ implements  LineCode {
             return data.toString();
         }catch (NullPointerException ignore){}
         return "";
+    }
+
+    @Override
+    public String binaryString(String s){
+        BinaryData data = new BinaryData();
+        data.set(s);
+        return data.binaryString();
     }
 }

@@ -55,6 +55,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val ipAddress = getDeviceIpWifiData()
+        Control.myIp = ipAddress
         ip = main_ip
         fab = mainFragment_fab
         ip.text = ipAddress

@@ -3,6 +3,8 @@ package com.beltraoluis.intrachat.connection;
 import android.util.Log;
 import com.beltraoluis.intrachat.activity.MainActivity;
 import com.beltraoluis.intrachat.connection.LineCode.NRZ;
+import com.beltraoluis.intrachat.model.Message;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
@@ -13,38 +15,34 @@ import java.util.logging.Logger;
 public class TcpServer extends Thread {
     protected MainActivity control;
     protected int porta;
-    protected boolean executar;
-    protected ServerSocket servidor;
+    protected boolean execute;
+    protected ServerSocket server;
 
     public TcpServer(MainActivity control, int porta){
         this.control = control;
         this.porta = porta;
-        executar = true;
+        execute = true;
         start();
     }
 
     public void run(){
         try {
-            // Instancia o ServerSocket ouvindo a porta 5555
-            servidor = new ServerSocket(porta);
+            server = new ServerSocket(porta);
             Log.i("TCP","Servidor ouvindo a porta " + porta);
-            control.update("Servidor", "Servidor ouvindo a porta " + porta);
-            while(executar) {
-                // o método accept() bloqueia a execução até que
-                // o servidor receba um pedido de conexão
-                Socket cliente = servidor.accept();
-                String ipCliente = cliente.getInetAddress().getHostAddress();
-                System.out.println("Cliente conectado: " + ipCliente);
-                ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
-                NRZ linha = (NRZ) entrada.readObject();
-                String mensagem = linha.decode();
+            while(execute) {
+                Socket client = server.accept();
+                String ipCliente = client.getInetAddress().getHostAddress();
+                Log.i("TCP","Cliente conectado: " + ipCliente);
+                ObjectInputStream entrada = new ObjectInputStream(client.getInputStream());
+                String linha = (String) entrada.readObject();
+                Log.i("TCP",linha);
                 entrada.close();
                 try {
                     sleep(200);
                 } catch (InterruptedException ex) {
                 }
-                control.update(ipCliente, mensagem);
-                cliente.close();
+                control.update(ipCliente, linha);
+                client.close();
             }
         }
         catch(IOException e) {
@@ -54,12 +52,12 @@ public class TcpServer extends Thread {
         }
     }
 
-    public void parar(){
+    public void stopServer(){
         try {
-            servidor.close();
+            server.close();
         } catch (IOException ex) {
         }
-        executar = false;
+        execute = false;
         this.interrupt();
     }
 }

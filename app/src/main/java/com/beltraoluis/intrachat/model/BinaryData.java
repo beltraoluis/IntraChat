@@ -115,7 +115,7 @@ public class BinaryData {
         return sb.toString();
     }
 
-    public String toBinary(){
+    public String binaryString(){
         StringBuilder sb = new StringBuilder();
         for(Bit b : data){
             if(b.estado){
