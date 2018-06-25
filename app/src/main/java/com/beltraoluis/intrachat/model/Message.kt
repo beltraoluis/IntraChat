@@ -13,6 +13,8 @@ data class Message(
         var message: String,
         var time: Long
 ){
+    @Optional
+    var encoded = false
     companion object {
         fun toMessage(s: String): Message{
             return JSON.parse<Message>(s)
@@ -20,16 +22,43 @@ data class Message(
     }
 
     fun toJson(): String{
-        when(lineCode){
-            Control.NRZ_CODE -> {
-                val lc = NRZ()
-                message = lc.encode(message)
-            }
-            Control.RZ_CODE -> {
-                val lc = RZ()
-                message = lc.encode(message)
+        encode()
+        return JSON.stringify(this)
+    }
+
+    fun encode(){
+        if(!encoded) {
+            encoded = true
+            when (lineCode) {
+                Control.NRZ_CODE -> {
+                    val lc = NRZ()
+                    message = lc.encode(message)
+                }
+                Control.RZ_CODE -> {
+                    val lc = RZ()
+                    message = lc.encode(message)
+                }
             }
         }
+    }
+
+    fun decode(){
+        if(encoded) {
+            encoded = false
+            when (lineCode) {
+                Control.NRZ_CODE -> {
+                    val lc = NRZ()
+                    message = lc.decode(message)
+                }
+                Control.RZ_CODE -> {
+                    val lc = RZ()
+                    message = lc.decode(message)
+                }
+            }
+        }
+    }
+
+    override fun toString(): String{
         return JSON.stringify(this)
     }
 }

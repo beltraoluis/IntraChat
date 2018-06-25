@@ -1,5 +1,7 @@
 package com.beltraoluis.intrachat.fragment
 
+import android.app.Activity
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,13 +18,10 @@ import android.widget.EditText
 import android.widget.TextView
 import com.beltraoluis.intrachat.Control
 import com.beltraoluis.intrachat.R
-import com.beltraoluis.intrachat.model.ContactAdapter
+import com.beltraoluis.intrachat.adapter.ContactAdapter
 import com.beltraoluis.intrachat.model.Conversation
 import kotlinx.android.synthetic.main.fragment_main.*
-import org.jetbrains.anko.customView
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.editText
-import org.jetbrains.anko.padding
+import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
 import java.sql.Timestamp
 
@@ -30,7 +29,7 @@ import java.sql.Timestamp
 /**
  * A placeholder fragment containing a simple view.
  */
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), IntraChatFragment {
 
     lateinit var ip: TextView
     lateinit var fab: FloatingActionButton
@@ -45,6 +44,11 @@ class MainFragment : Fragment() {
             f.arguments = args
             return f
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Control.activeFragment = this
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -95,5 +99,11 @@ class MainFragment : Fragment() {
         @SuppressWarnings("deprecation")
         val ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress())
         return ip
+    }
+
+    override fun updateRecycler() {
+        Control.main?.runOnUiThread {
+            recycler.adapter.notifyDataSetChanged()
+        }
     }
 }

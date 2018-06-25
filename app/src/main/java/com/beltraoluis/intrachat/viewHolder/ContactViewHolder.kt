@@ -1,4 +1,4 @@
-package com.beltraoluis.intrachat.model
+package com.beltraoluis.intrachat.viewHolder
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

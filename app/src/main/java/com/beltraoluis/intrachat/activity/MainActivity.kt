@@ -11,6 +11,9 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.CompoundButton
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import com.beltraoluis.intrachat.Control
 import com.beltraoluis.intrachat.R
 import com.beltraoluis.intrachat.connection.TcpServer
@@ -21,9 +24,8 @@ import com.beltraoluis.intrachat.model.Message
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.noButton
-import org.jetbrains.anko.yesButton
+import org.jetbrains.anko.*
+import java.sql.Timestamp
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,7 +61,47 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.lineCode_menu -> {
+                alert{
+                    customView{
+                        verticalLayout{
+                            padding = dip(8)
+                            textView("Códigos de linha"){
+                                textSize = 20F
+                            }
+                            radioGroup {
+                                val nrz = radioButton{
+                                    text = "NRZ"
+                                }
+                                val rz = radioButton{
+                                    text = "RZ"
+                                }
+                                when(Control.codeline_code){
+                                    Control.NRZ_CODE -> {
+                                        nrz.isChecked = true
+                                        rz.isChecked = false
+                                    }
+                                    Control.RZ_CODE -> {
+                                        rz.isChecked = true
+                                        nrz.isChecked = false
+                                    }
+                                }
+                                nrz.setOnClickListener{
+                                    nrz.isChecked = true
+                                    rz.isChecked = false
+                                    Control.codeline_code = Control.NRZ_CODE
+                                }
+                                rz.setOnClickListener{
+                                    rz.isChecked = true
+                                    nrz.isChecked = false
+                                    Control.codeline_code = Control.RZ_CODE
+                                }
+                            }
+                        }
+                    }
+                }.show()
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -67,9 +109,16 @@ class MainActivity : AppCompatActivity() {
     fun update(ip: String, message: String){
         if(Control.conversation[ip] == null){
             Control.conversation[ip] = Conversation(System.currentTimeMillis())
+            runOnUiThread {
+                if(Control.state.equals(MAIN_FRAGMENT)){
+                    val frag = Control.activeFragment as MainFragment
+                    frag.recyclerAdapter.add(Timestamp(Control.conversation[ip]!!.time) to ip)
+                }
+            }
         }
         Control.conversation[ip]!!.messages.add(Message.toMessage(message))
         Log.i("Message",message)
+        Control.activeFragment?.updateRecycler()
     }
 
     fun callFragment(s: String, ip: String){

@@ -1,9 +1,10 @@
-package com.beltraoluis.intrachat.model
+package com.beltraoluis.intrachat.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.beltraoluis.intrachat.R
+import com.beltraoluis.intrachat.viewHolder.ContactViewHolder
 import java.sql.Timestamp
 
 class ContactAdapter(data: MutableList<Pair<Timestamp,String>>?): RecyclerView.Adapter<ContactViewHolder>() {

@@ -1,23 +1,34 @@
 package com.beltraoluis.intrachat.fragment
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.beltraoluis.intrachat.Control
 import com.beltraoluis.intrachat.R
+import com.beltraoluis.intrachat.adapter.ContactAdapter
+import com.beltraoluis.intrachat.adapter.TalkAdapter
 import kotlinx.android.synthetic.main.fragment_talk.*
 import com.beltraoluis.intrachat.model.Message
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import kotlinx.android.synthetic.main.fragment_main.*
+import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.alert
 import java.io.IOException
 import java.io.ObjectOutputStream
 import java.net.Socket
 
 
-class TalkFragment : Fragment() {
+class TalkFragment : Fragment(), IntraChatFragment {
+    lateinit var recycler: RecyclerView
+    lateinit var recyclerAdapter: TalkAdapter
+    var loop = true
 
     var ip: String? = null
     lateinit var textIP: TextView
@@ -35,6 +46,7 @@ class TalkFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ip = savedInstanceState?.getString("ip")
+        Control.activeFragment = this
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +60,29 @@ class TalkFragment : Fragment() {
         textIP = talk_ip
         textIP.text = Control.activeIp ?: ""
         sendButton()
+        recyclerAdapter = TalkAdapter()
+        recycler = talk_conversation.apply {
+            layoutManager = LinearLayoutManager(activity?.applicationContext)
+            adapter = recyclerAdapter
+            setHasFixedSize(true)
+        }
     }
+
+//    override fun onAttach(context: Context?){
+//        super.onAttach(context)
+//        loop = true
+//        doAsync {
+//            if(loop){
+//                Thread.sleep(300L)
+//                recycler.adapter.notifyDataSetChanged()
+//            }
+//        }
+//    }
+//
+//    override fun onDetach() {
+//        super.onDetach()
+//        loop = false
+//    }
 
     fun sendButton(){
         val send = talk_send
@@ -74,9 +108,18 @@ class TalkFragment : Fragment() {
                     Control.main!!.update(Control.activeIp!!,json)
                     uiThread {
                         message.text.clear()
+                        message.clearFocus()
+                        activity?.inputMethodManager
+                                ?.hideSoftInputFromWindow(view?.windowToken,0)
                     }
                 }
             }
+        }
+    }
+
+    override fun updateRecycler() {
+        Control.main?.runOnUiThread {
+            recycler.adapter.notifyDataSetChanged()
         }
     }
 }
