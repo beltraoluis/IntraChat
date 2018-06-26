@@ -1,19 +1,10 @@
 package com.beltraoluis.intrachat.activity
 
-import android.Manifest
-import android.app.Fragment
-import android.app.FragmentManager
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.CompoundButton
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import com.beltraoluis.intrachat.Control
 import com.beltraoluis.intrachat.R
 import com.beltraoluis.intrachat.connection.TcpServer
@@ -21,9 +12,7 @@ import com.beltraoluis.intrachat.fragment.MainFragment
 import com.beltraoluis.intrachat.fragment.TalkFragment
 import com.beltraoluis.intrachat.model.Conversation
 import com.beltraoluis.intrachat.model.Message
-
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.*
 import java.sql.Timestamp
 
